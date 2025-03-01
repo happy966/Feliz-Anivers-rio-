@@ -1,45 +1,36 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Feliz Aniversário!</title>
     <style>
         body {
-            background: linear-gradient(to right, #ff9a9e, #fad0c4);
-            text-align: center;
-            font-family: 'Arial', sans-serif;
-            overflow: hidden;
-            height: 100vh;
+            margin: 0;
+            padding: 0;
             display: flex;
             flex-direction: column;
-            justify-content: center;
             align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background: linear-gradient(to right, #0a3d62, #3c6382);
+            color: white;
+            font-family: 'Arial', sans-serif;
+            text-align: center;
         }
         h1 {
-            font-size: 4em;
-            color: white;
-            text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.3);
-            animation: pulse 1.5s infinite alternate;
+            font-size: 4rem;
+            font-weight: bold;
+            color: black;
+            text-shadow: 3px 3px 5px rgba(255, 255, 255, 0.3);
         }
-        @keyframes pulse {
-            from { transform: scale(1); }
-            to { transform: scale(1.1); }
-        }
-        .button {
-            background-color: #ff4081;
-            color: white;
-            border: none;
-            padding: 15px 30px;
-            font-size: 1.5em;
-            border-radius: 10px;
-            cursor: pointer;
-            margin-top: 20px;
-            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
-            transition: 0.3s;
-        }
-        .button:hover {
-            background-color: #d81b60;
+        #balloons {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
         }
         .balloon {
             position: absolute;
@@ -51,39 +42,47 @@
             animation: float 5s linear infinite;
         }
         @keyframes float {
-            0% { bottom: -100px; opacity: 0; }
-            50% { opacity: 1; }
-            100% { bottom: 100vh; opacity: 0; }
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-120vh); }
+        }
+        button {
+            margin-top: 20px;
+            padding: 15px 30px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            background: #27ae60;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        button:hover {
+            background: #2ecc71;
         }
     </style>
 </head>
 <body>
     <h1>Feliz Aniversário!</h1>
-    <button class="button" onclick="registerClick()">Clique aqui!</button>
-    
+    <button onclick="registerClick()">Clique Aqui!</button>
+    <audio autoplay loop>
+        <source src="https://www.myinstants.com/media/sounds/parabens.mp3" type="audio/mp3">
+        Seu navegador não suporta áudio.
+    </audio>
+    <div id="balloons"></div>
     <script>
+        function registerClick() {
+            alert("Seu clique foi registrado! Feliz Aniversário!");
+        }
         function createBalloon() {
-            let balloon = document.createElement("div");
-            balloon.className = "balloon";
-            balloon.style.left = Math.random() * window.innerWidth + "px";
-            balloon.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
-            balloon.style.animationDuration = 3 + Math.random() * 3 + "s";
-            document.body.appendChild(balloon);
-            setTimeout(() => { balloon.remove(); }, 5000);
+            const balloon = document.createElement('div');
+            balloon.classList.add('balloon');
+            balloon.style.left = Math.random() * 100 + "vw";
+            balloon.style.background = `hsl(${Math.random() * 360}, 100%, 50%)`;
+            document.getElementById('balloons').appendChild(balloon);
+            setTimeout(() => balloon.remove(), 5000);
         }
         setInterval(createBalloon, 500);
-        
-        function registerClick() {
-            fetch('https://your-server.com/register-click', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ timestamp: new Date().toISOString() })
-            }).then(response => {
-                if (response.ok) {
-                    alert("Obrigado por acessar!");
-                }
-            });
-        }
     </script>
 </body>
 </html>
